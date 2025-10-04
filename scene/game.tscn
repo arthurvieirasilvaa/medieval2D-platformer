@@ -1,10 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://yst7ywaourtd"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4st5"]
+[ext_resource type="PackedScene" uid="uid://cqxod2criuam7" path="res://entities/player.tscn" id="1_5kiuu"]
 
 [node name="Game" type="Node2D"]
 
-[node name="Player" type="CharacterBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-shape = SubResource("CapsuleShape2D_n4st5")
+[node name="Player" parent="." instance=ExtResource("1_5kiuu")]

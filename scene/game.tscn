@@ -459,8 +459,10 @@ sources/0 = SubResource("TileSetAtlasSource_33cqm")
 [node name="Game" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_5kiuu")]
+position = Vector2(30, 561)
 
 [node name="Tiles" type="Node2D" parent="."]
+position = Vector2(33, 557)
 
 [node name="Terrain" type="TileMapLayer" parent="Tiles"]
 position = Vector2(1, 0)

@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="medieval2D-platformer"
+run/main_scene="uid://yst7ywaourtd"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/mode=2
+window/stretch/mode="canvas_items"
 
 [rendering]
 

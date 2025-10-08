@@ -9,6 +9,7 @@
 texture = ExtResource("1_k56fq")
 14:1/size_in_atlas = Vector2i(4, 2)
 14:1/0 = 0
+14:1/0/texture_origin = Vector2i(0, -2)
 19:1/size_in_atlas = Vector2i(3, 1)
 19:1/0 = 0
 23:1/size_in_atlas = Vector2i(3, 1)
@@ -18,10 +19,10 @@ texture = ExtResource("1_k56fq")
 27:1/0/texture_origin = Vector2i(0, -6)
 30:1/size_in_atlas = Vector2i(2, 1)
 30:1/0 = 0
-30:1/0/texture_origin = Vector2i(0, -6)
+30:1/0/texture_origin = Vector2i(0, -8)
 33:1/size_in_atlas = Vector2i(2, 1)
 33:1/0 = 0
-33:1/0/texture_origin = Vector2i(0, -7)
+33:1/0/texture_origin = Vector2i(0, -8)
 1:1/size_in_atlas = Vector2i(5, 2)
 1:1/0 = 0
 7:1/size_in_atlas = Vector2i(5, 2)
@@ -37,12 +38,13 @@ texture = ExtResource("2_b4fdq")
 texture = ExtResource("3_hjahj")
 1:0/size_in_atlas = Vector2i(2, 4)
 1:0/0 = 0
-1:0/0/texture_origin = Vector2i(0, -12)
+1:0/0/texture_origin = Vector2i(0, 4)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5g16k"]
 texture = ExtResource("4_lb8v8")
 1:0/size_in_atlas = Vector2i(2, 3)
 1:0/0 = 0
+1:0/0/texture_origin = Vector2i(0, -4)
 
 [resource]
 sources/3 = SubResource("TileSetAtlasSource_yq8tf")

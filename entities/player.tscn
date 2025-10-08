@@ -142,5 +142,5 @@ frame_progress = 0.817615
 position = Vector2(0, 1)
 limit_left = 0
 limit_top = 0
-limit_bottom = 300
+limit_bottom = 1080
 position_smoothing_enabled = true

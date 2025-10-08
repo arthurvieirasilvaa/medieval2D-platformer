@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://n8j307y0wmbq" path="res://sprites/player/run.png" id="3_e4p34"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4st5"]
-radius = 17.0
-height = 40.0
+radius = 18.0
+height = 50.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b0kkn"]
 atlas = ExtResource("1_merdl")
@@ -120,12 +120,13 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 1
 script = ExtResource("1_b0kkn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 texture_filter = 1
-position = Vector2(-8, 8)
+position = Vector2(-7, 5)
 shape = SubResource("CapsuleShape2D_n4st5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -138,8 +139,8 @@ frame = 1
 frame_progress = 0.817615
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(29, -10)
+position = Vector2(0, 1)
 limit_left = 0
 limit_top = 0
-limit_bottom = 200
+limit_bottom = 300
 position_smoothing_enabled = true

@@ -25,8 +25,8 @@ func _physics_process(delta: float) -> void:
 		
 	if is_on_floor():
 		if animation.animation == 'falling':
-			animation.play('landing_animation') # Se estava caindo, toca a animação de aterrissagem
-		elif animation.animation != "landing_animation" or not animation.is_playing():
+			animation.play('landing') # Se estava caindo, toca a animação de aterrissagem
+		elif animation.animation != "landing" or not animation.is_playing():
 			if direction != 0:
 				animation.flip_h = (direction < 0)
 				animation.play("run")

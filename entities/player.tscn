@@ -10,8 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dpf3nls1eke3p" path="res://sprites/player/landing.png" id="7_dchgp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4st5"]
-radius = 18.0
-height = 50.0
+radius = 14.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oprnr"]
 atlas = ExtResource("2_i623q")
@@ -254,26 +253,20 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 1
 script = ExtResource("1_b0kkn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 texture_filter = 1
-position = Vector2(-7, 5)
+position = Vector2(-6, 8)
 shape = SubResource("CapsuleShape2D_n4st5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-scale = Vector2(2.08182, 1.48438)
+scale = Vector2(1.38636, 1.02344)
 sprite_frames = SubResource("SpriteFrames_i623q")
 animation = &"idle"
 autoplay = "idle"
 frame_progress = 0.8832
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, 1)
-limit_left = 0
-limit_bottom = 1080
-position_smoothing_enabled = true

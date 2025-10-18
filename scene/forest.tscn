@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://cx215obykywad"]
+[gd_scene load_steps=14 format=4 uid="uid://cx215obykywad"]
 
 [ext_resource type="PackedScene" uid="uid://cqxod2criuam7" path="res://entities/player.tscn" id="1_e2knd"]
 [ext_resource type="TileSet" uid="uid://buvhwe6ib2yqc" path="res://tiles/terrain.tres" id="2_2xpkg"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://d2lh4sfkfwe8g" path="res://sprites/forest/background/background_layer_2.png" id="4_v5bin"]
 [ext_resource type="Texture2D" uid="uid://dhdmfe2cscb8x" path="res://sprites/forest/background/background_layer_1.png" id="5_e3l50"]
 [ext_resource type="PackedScene" uid="uid://b7vcy0txhjwws" path="res://entities/camera.tscn" id="8_qxlj4"]
+[ext_resource type="PackedScene" uid="uid://cufpa5vgfwfxv" path="res://entities/level_end.tscn" id="10_jxvlp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jo4av"]
 texture = ExtResource("3_jo4av")
@@ -420,6 +421,9 @@ texture = ExtResource("3_jo4av")
 [sub_resource type="TileSet" id="TileSet_gwku7"]
 sources/1 = SubResource("TileSetAtlasSource_jo4av")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwku7"]
+size = Vector2(20, 144)
+
 [node name="Forest" type="Node2D"]
 metadata/_edit_vertical_guides_ = [2319.0]
 
@@ -497,3 +501,12 @@ position = Vector2(65, 85)
 limit_top = 0
 limit_right = 2319
 limit_bottom = 220
+
+[node name="LevelEnd" parent="." instance=ExtResource("10_jxvlp")]
+position = Vector2(2316, 131)
+
+[node name="CollisionShape2D" parent="LevelEnd" index="0"]
+position = Vector2(0, -59)
+shape = SubResource("RectangleShape2D_gwku7")
+
+[editable path="LevelEnd"]

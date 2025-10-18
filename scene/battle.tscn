@@ -862,12 +862,13 @@ texture = ExtResource("2_ffp3s")
 
 [sub_resource type="TileSet" id="TileSet_0okv5"]
 physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 6
 sources/1 = SubResource("TileSetAtlasSource_soyo5")
 
 [node name="Battle" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_afp2b")]
-position = Vector2(29, 178)
+position = Vector2(26, 226)
 
 [node name="TileMaps" type="Node" parent="."]
 

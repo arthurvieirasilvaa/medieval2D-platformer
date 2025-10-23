@@ -5,6 +5,7 @@ enum PlayerState {
 	walk,
 	jump_preparation,
 	flying_up,
+	falling,
 	landing,
 	crouch
 }
@@ -29,8 +30,6 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-	else:
-		jump_count = 0
 	
 	match status:
 		PlayerState.idle:
@@ -41,6 +40,8 @@ func _physics_process(delta: float) -> void:
 			jump_preparation_state()
 		PlayerState.flying_up:
 			flying_up_state()
+		PlayerState.falling:
+			falling_state()
 		PlayerState.landing:
 			landing_state()
 		PlayerState.crouch:
@@ -69,6 +70,12 @@ func go_to_flying_up_state():
 	velocity.y = JUMP_VELOCITY
 	animation.play("flying_up")
 	jump_count += 1
+
+
+func go_to_falling_state():
+	status = PlayerState.falling
+	animation.play("falling")
+
 
 func go_to_landing_state():
 	status = PlayerState.landing
@@ -116,6 +123,11 @@ func walk_state():
 		go_to_jump_preparation_state()
 		return
 	
+	if !is_on_floor():
+		jump_count += 1
+		go_to_falling_state()
+		return
+	
 	
 func jump_preparation_state():
 	move()
@@ -128,20 +140,37 @@ func jump_preparation_state():
 func flying_up_state():
 	move()
 	
-	if Input.is_action_just_pressed("jump") and jump_count < max_jump_count:
+	if Input.is_action_just_pressed("jump") and can_jump():
 		go_to_flying_up_state()
+		return
+		
+	if velocity.y > 0:
+		go_to_falling_state()
+		return	
 		
 	if is_on_floor():
 		go_to_landing_state()
 		return
 
 
+func falling_state():
+	move()
+
+	if Input.is_action_just_pressed("jump") and can_jump():
+		go_to_flying_up_state()
+		return
+	
+	if is_on_floor():
+		go_to_landing_state()
+		return
+
 func landing_state():
 	move()
 
 	if animation.frame == animation.sprite_frames.get_frame_count("landing") - 1:
+		jump_count = 0
 		if velocity.x == 0:
-			go_to_idle_state() 
+			go_to_idle_state()
 		else:
 			go_to_walk_state()
 		return
@@ -172,3 +201,7 @@ func update_direction():
 		animation.flip_h = true
 	elif direction > 0:
 		animation.flip_h = false
+
+
+func can_jump() -> bool:
+	return jump_count < max_jump_count

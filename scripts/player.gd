@@ -10,11 +10,13 @@ enum PlayerState {
 }
 
 @onready var animation: AnimatedSprite2D = $AnimatedSprite2D
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 
 const SPEED = 80.0
 const JUMP_VELOCITY = -300.0
 
+var direction = 0
 var status: PlayerState
 
 func _ready() -> void:
@@ -71,7 +73,16 @@ func go_to_landing_state():
 func go_to_crouch_state():
 	status = PlayerState.crouch
 	animation.play("crouch")
+	collision_shape.shape.radius = 12
+	collision_shape.shape.height = 25
+	collision_shape.position.y = 1
 	
+	
+func exit_from_crouch_state():
+	collision_shape.shape.radius = 14
+	collision_shape.shape.height = 28
+	collision_shape.position.y = 8
+
 
 func idle_state():
 	move()
@@ -130,17 +141,25 @@ func landing_state():
 
 
 func crouch_state():
+	update_direction()
+	
 	if Input.is_action_just_released("crouch"):
+		exit_from_crouch_state()
 		go_to_idle_state();
 		return
 		
 
 func move():
-	var direction := Input.get_axis("left", "right")
+	update_direction()
+	
 	if direction:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+
+func update_direction():
+	direction = Input.get_axis("left", "right")
 	
 	if direction < 0:
 		animation.flip_h = true

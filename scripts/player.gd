@@ -16,6 +16,8 @@ enum PlayerState {
 const SPEED = 80.0
 const JUMP_VELOCITY = -300.0
 
+var jump_count = 0
+@export var max_jump_count = 2
 var direction = 0
 var status: PlayerState
 
@@ -27,6 +29,8 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+	else:
+		jump_count = 0
 	
 	match status:
 		PlayerState.idle:
@@ -62,8 +66,9 @@ func go_to_jump_preparation_state():
 
 func go_to_flying_up_state():
 	status = PlayerState.flying_up
+	velocity.y = JUMP_VELOCITY
 	animation.play("flying_up")
-
+	jump_count += 1
 
 func go_to_landing_state():
 	status = PlayerState.landing
@@ -116,7 +121,6 @@ func jump_preparation_state():
 	move()
 	
 	if animation.frame == animation.sprite_frames.get_frame_count("jump_preparation") - 1:
-		velocity.y = JUMP_VELOCITY
 		go_to_flying_up_state()
 		return
 
@@ -124,6 +128,9 @@ func jump_preparation_state():
 func flying_up_state():
 	move()
 	
+	if Input.is_action_just_pressed("jump") and jump_count < max_jump_count:
+		go_to_flying_up_state()
+		
 	if is_on_floor():
 		go_to_landing_state()
 		return

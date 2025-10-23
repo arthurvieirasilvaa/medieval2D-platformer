@@ -5,10 +5,12 @@ enum PlayerState {
 	walk,
 	jump_preparation,
 	flying_up,
-	landing
+	landing,
+	crouch
 }
 
 @onready var animation: AnimatedSprite2D = $AnimatedSprite2D
+
 
 const SPEED = 80.0
 const JUMP_VELOCITY = -300.0
@@ -35,6 +37,8 @@ func _physics_process(delta: float) -> void:
 			flying_up_state()
 		PlayerState.landing:
 			landing_state()
+		PlayerState.crouch:
+			crouch_state()
 		
 	move_and_slide()
 
@@ -62,7 +66,12 @@ func go_to_flying_up_state():
 func go_to_landing_state():
 	status = PlayerState.landing
 	animation.play("landing")
-
+	
+	
+func go_to_crouch_state():
+	status = PlayerState.crouch
+	animation.play("crouch")
+	
 
 func idle_state():
 	move()
@@ -74,6 +83,10 @@ func idle_state():
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		go_to_jump_preparation_state()
 		return	
+
+	if Input.is_action_pressed("crouch") and is_on_floor():
+		go_to_crouch_state()
+		return
 
 
 func walk_state():
@@ -115,6 +128,12 @@ func landing_state():
 			go_to_walk_state()
 		return
 
+
+func crouch_state():
+	if Input.is_action_just_released("crouch"):
+		go_to_idle_state();
+		return
+		
 
 func move():
 	var direction := Input.get_axis("left", "right")

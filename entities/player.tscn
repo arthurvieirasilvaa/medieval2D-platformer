@@ -1,7 +1,8 @@
-[gd_scene load_steps=48 format=3 uid="uid://cqxod2criuam7"]
+[gd_scene load_steps=52 format=3 uid="uid://cqxod2criuam7"]
 
 [ext_resource type="Script" uid="uid://dm1xn5hecdfuq" path="res://scripts/player.gd" id="1_b0kkn"]
 [ext_resource type="Texture2D" uid="uid://dk0kvji2o2tq2" path="res://sprites/player/idle.png" id="1_merdl"]
+[ext_resource type="Texture2D" uid="uid://cy6wwjbcklph1" path="res://sprites/player/crouch.png" id="2_ef06p"]
 [ext_resource type="Texture2D" uid="uid://873uhuwoaa5d" path="res://sprites/player/falling.png" id="2_i623q"]
 [ext_resource type="Texture2D" uid="uid://n8j307y0wmbq" path="res://sprites/player/run.png" id="3_e4p34"]
 [ext_resource type="Texture2D" uid="uid://bfdtr1k011mun" path="res://sprites/player/flying_up.png" id="3_ef06p"]
@@ -11,6 +12,18 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4st5"]
 radius = 14.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_evlff"]
+atlas = ExtResource("2_ef06p")
+region = Rect2(0, 0, 55, 59)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7db53"]
+atlas = ExtResource("2_ef06p")
+region = Rect2(55, 0, 55, 59)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yb7tu"]
+atlas = ExtResource("2_ef06p")
+region = Rect2(110, 0, 55, 59)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oprnr"]
 atlas = ExtResource("2_i623q")
@@ -164,6 +177,20 @@ region = Rect2(55, 54, 55, 54)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_evlff")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7db53")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yb7tu")
+}],
+"loop": true,
+"name": &"crouch",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_oprnr")
 }, {
 "duration": 1.0,
@@ -228,7 +255,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"jump_preparation",
-"speed": 10.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -242,7 +269,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"landing",
-"speed": 10.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -318,11 +345,11 @@ script = ExtResource("1_b0kkn")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 texture_filter = 1
-position = Vector2(-6, 8)
+position = Vector2(-6, 7)
 shape = SubResource("CapsuleShape2D_n4st5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 scale = Vector2(1.38636, 1.02344)
 sprite_frames = SubResource("SpriteFrames_i623q")
-animation = &"falling"
+animation = &"walk"

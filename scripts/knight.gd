@@ -54,7 +54,7 @@ func go_to_death_state():
 	hitbox.process_mode = Node.PROCESS_MODE_DISABLED
 	velocity = Vector2.ZERO
 
-func idle_state(delta):
+func idle_state(_delta):
 	pass
 	
 	

@@ -286,7 +286,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"crouch",
-"speed": 8.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -438,7 +438,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 10.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -467,7 +467,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"sliding",
-"speed": 10.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -484,7 +484,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"taking_damage",
-"speed": 10.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -519,7 +519,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 10.0
+"speed": 8.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tjdhl"]
@@ -541,7 +541,8 @@ shape = SubResource("CapsuleShape2D_n4st5")
 texture_filter = 1
 scale = Vector2(1.38636, 1.02344)
 sprite_frames = SubResource("SpriteFrames_i623q")
-animation = &"death"
+animation = &"walk"
+frame_progress = 0.71701
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 2

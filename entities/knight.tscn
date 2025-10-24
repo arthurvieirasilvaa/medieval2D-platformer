@@ -220,6 +220,7 @@ height = 32.0
 size = Vector2(19, 33)
 
 [node name="Knight" type="CharacterBody2D"]
+z_index = 1
 texture_filter = 1
 collision_layer = 4
 script = ExtResource("1_wmydh")
@@ -239,3 +240,11 @@ shape = SubResource("CapsuleShape2D_8203k")
 position = Vector2(1.5, 2.5)
 shape = SubResource("RectangleShape2D_wmydh")
 debug_color = Color(0.96073, 1.05888e-06, 0.51438, 0.42)
+
+[node name="WallDetector" type="RayCast2D" parent="."]
+position = Vector2(0, 16)
+target_position = Vector2(23, 0)
+
+[node name="GroundDetector" type="RayCast2D" parent="."]
+position = Vector2(16, 0)
+target_position = Vector2(0, 25)

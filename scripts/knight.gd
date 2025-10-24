@@ -8,15 +8,19 @@ enum KnightState {
 
 @onready var animation: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hitbox: Area2D = $Hitbox
+@onready var wall_detector: RayCast2D = $WallDetector
+@onready var ground_detector: RayCast2D = $GroundDetector
 
 
-const SPEED = 300.0
+const SPEED = 30.0
 const JUMP_VELOCITY = -400.0
 
 var status: KnightState
 
+var direction = 1
+
 func _ready() -> void:
-	go_to_idle_state()
+	go_to_walk_state()
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -48,13 +52,22 @@ func go_to_death_state():
 	status = KnightState.death
 	animation.play("death")
 	hitbox.process_mode = Node.PROCESS_MODE_DISABLED
+	velocity = Vector2.ZERO
 
 func idle_state(delta):
 	pass
 	
 	
 func walk_state(_delta):
-	pass
+	velocity.x = SPEED * direction
+	
+	if wall_detector.is_colliding():
+		scale.x *= -1
+		direction *= -1
+		
+	if not ground_detector.is_colliding():
+		scale.x *= -1
+		direction *= -1
 	
 
 func death_state(_delta):

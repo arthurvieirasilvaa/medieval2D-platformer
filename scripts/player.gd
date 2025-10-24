@@ -7,16 +7,19 @@ enum PlayerState {
 	flying_up,
 	falling,
 	landing,
-	crouch
+	crouch,
+	sliding
 }
 
 @onready var animation: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 
-@export var max_speed = 180.0
-@export var acceleration = 100
-@export var deceleration = 100
+@export var max_speed = 120.0
+@export var acceleration = 400
+@export var deceleration = 400
+@export var slide_deceleration = 100
+
 const JUMP_VELOCITY = -300.0
 
 var jump_count = 0
@@ -24,13 +27,7 @@ var jump_count = 0
 var direction = 0
 var status: PlayerState
 
-func move(delta):
-	update_direction()
-	
-	if direction:
-		velocity.x = move_toward(velocity.x, direction * max_speed, acceleration * delta)
-	else:
-		velocity.x = move_toward(velocity.x, 0, deceleration * delta)
+
 
 
 func _ready() -> void:
@@ -56,7 +53,9 @@ func _physics_process(delta: float) -> void:
 		PlayerState.landing:
 			landing_state(delta)
 		PlayerState.crouch:
-			crouch_state()
+			crouch_state(delta)
+		PlayerState.sliding:
+			sliding_state(delta)
 		
 	move_and_slide()
 
@@ -96,17 +95,23 @@ func go_to_landing_state():
 func go_to_crouch_state():
 	status = PlayerState.crouch
 	animation.play("crouch")
-	collision_shape.shape.radius = 12
-	collision_shape.shape.height = 25
-	collision_shape.position.y = 1
-	
-	
+	set_crouch_collider()
+
+
 func exit_from_crouch_state():
-	collision_shape.shape.radius = 14
-	collision_shape.shape.height = 28
-	collision_shape.position.y = 8
+	set_large_collider()
 
 
+func go_to_sliding_state():
+	status = PlayerState.sliding
+	animation.play("sliding")
+	set_sliding_collider()
+	
+
+func exit_from_sliding_state():
+	set_large_collider()
+	
+	
 func idle_state(delta):
 	move(delta)
 	
@@ -138,7 +143,10 @@ func walk_state(delta):
 		jump_count += 1
 		go_to_falling_state()
 		return
-	
+		
+	if Input.is_action_just_pressed("crouch") and is_on_floor():
+		go_to_sliding_state()
+		return
 	
 func jump_preparation_state(delta):
 	move(delta)
@@ -187,14 +195,37 @@ func landing_state(delta):
 		return
 
 
-func crouch_state():
+func crouch_state(_delta):
 	update_direction()
 	
 	if Input.is_action_just_released("crouch"):
 		exit_from_crouch_state()
 		go_to_idle_state();
 		return
+	
+	
+func sliding_state(delta):
+	velocity.x = move_toward(velocity.x, 0, slide_deceleration * delta)	
+	
+	if Input.is_action_just_released("crouch"):
+		exit_from_sliding_state()
+		go_to_walk_state()
+		return
 		
+	if velocity.x == 0:
+		exit_from_sliding_state()
+		go_to_crouch_state()
+		return
+	
+	
+func move(delta):
+	update_direction()
+	
+	if direction:
+		velocity.x = move_toward(velocity.x, direction * max_speed, acceleration * delta)
+	else:
+		velocity.x = move_toward(velocity.x, 0, deceleration * delta)	
+	
 
 func update_direction():
 	direction = Input.get_axis("left", "right")
@@ -207,3 +238,21 @@ func update_direction():
 
 func can_jump() -> bool:
 	return jump_count < max_jump_count
+
+
+func set_crouch_collider():
+	collision_shape.shape.radius = 12
+	collision_shape.shape.height = 25
+	collision_shape.position.y = 1
+	
+	
+func set_sliding_collider():
+	collision_shape.shape.radius = 13
+	collision_shape.shape.height = 26
+	collision_shape.position.y = 5
+
+
+func set_large_collider():
+	collision_shape.shape.radius = 14
+	collision_shape.shape.height = 28
+	collision_shape.position.y = 7

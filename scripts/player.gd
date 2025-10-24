@@ -8,7 +8,9 @@ enum PlayerState {
 	falling,
 	landing,
 	crouch,
-	sliding
+	sliding,
+	taking_damage,
+	death
 }
 
 @onready var animation: AnimatedSprite2D = $AnimatedSprite2D
@@ -56,6 +58,10 @@ func _physics_process(delta: float) -> void:
 			crouch_state(delta)
 		PlayerState.sliding:
 			sliding_state(delta)
+		PlayerState.taking_damage:
+			taking_damage_state(delta)
+		PlayerState.death:
+			death_state(delta)
 		
 	move_and_slide()
 
@@ -111,6 +117,15 @@ func go_to_sliding_state():
 func exit_from_sliding_state():
 	set_large_collider()
 	
+	
+func go_to_taking_damage_state():
+	status = PlayerState.taking_damage
+	animation.play("taking_damage")
+	
+func go_to_death_state():
+	status = PlayerState.death
+	animation.play("death")		
+	velocity = Vector2.ZERO
 	
 func idle_state(delta):
 	move(delta)
@@ -216,7 +231,15 @@ func sliding_state(delta):
 		exit_from_sliding_state()
 		go_to_crouch_state()
 		return
+
+
+func taking_damage_state(_delta):
+	pass
 	
+	
+func death_state(_delta):
+	pass	
+		
 	
 func move(delta):
 	update_direction()
@@ -256,3 +279,13 @@ func set_large_collider():
 	collision_shape.shape.radius = 14
 	collision_shape.shape.height = 30
 	collision_shape.position.y = 6
+
+
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if velocity.y > 0:
+		# inimigo morre
+		area.get_parent().take_damage()
+		go_to_flying_up_state()
+	else:
+		# player morre
+		go_to_death_state()

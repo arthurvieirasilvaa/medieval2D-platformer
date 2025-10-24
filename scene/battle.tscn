@@ -869,6 +869,9 @@ sources/1 = SubResource("TileSetAtlasSource_soyo5")
 
 [node name="Player" parent="." instance=ExtResource("1_afp2b")]
 position = Vector2(26, 226)
+max_speed = 100.0
+acceleration = 400
+deceleration = 400
 
 [node name="TileMaps" type="Node" parent="."]
 

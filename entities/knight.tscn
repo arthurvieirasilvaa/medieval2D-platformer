@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://070jwikbl4kn"]
+
+[ext_resource type="Texture2D" uid="uid://coj4ma1q3y1xf" path="res://sprites/knight/IDLE.png" id="1_kmc1q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmydh"]
+atlas = ExtResource("1_kmc1q")
+region = Rect2(0, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gk8bk"]
+atlas = ExtResource("1_kmc1q")
+region = Rect2(96, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jn7en"]
+atlas = ExtResource("1_kmc1q")
+region = Rect2(192, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80syu"]
+atlas = ExtResource("1_kmc1q")
+region = Rect2(288, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_up45c"]
+atlas = ExtResource("1_kmc1q")
+region = Rect2(384, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oo3l6"]
+atlas = ExtResource("1_kmc1q")
+region = Rect2(480, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7a6i"]
+atlas = ExtResource("1_kmc1q")
+region = Rect2(576, 0, 96, 84)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_406ae"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmydh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gk8bk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jn7en")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80syu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_up45c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oo3l6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7a6i")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8203k"]
+radius = 8.0
+height = 32.0
+
+[node name="Knight" type="CharacterBody2D"]
+texture_filter = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_406ae")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_8203k")

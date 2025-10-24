@@ -13,7 +13,6 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4st5"]
 radius = 14.0
-height = 28.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_evlff"]
 atlas = ExtResource("2_ef06p")
@@ -406,14 +405,13 @@ collision_mask = 9
 script = ExtResource("1_b0kkn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 texture_filter = 1
-position = Vector2(0, 7)
+position = Vector2(0, 6)
 shape = SubResource("CapsuleShape2D_n4st5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 scale = Vector2(1.38636, 1.02344)
 sprite_frames = SubResource("SpriteFrames_i623q")
-animation = &"sliding"
-frame = 4
-frame_progress = 0.038007
+animation = &"idle"

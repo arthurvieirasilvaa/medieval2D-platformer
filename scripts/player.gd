@@ -254,5 +254,5 @@ func set_sliding_collider():
 
 func set_large_collider():
 	collision_shape.shape.radius = 14
-	collision_shape.shape.height = 28
-	collision_shape.position.y = 7
+	collision_shape.shape.height = 30
+	collision_shape.position.y = 6

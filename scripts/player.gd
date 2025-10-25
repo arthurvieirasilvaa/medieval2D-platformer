@@ -22,6 +22,9 @@ enum PlayerState {
 @export var acceleration = 400
 @export var deceleration = 400
 @export var slide_deceleration = 100
+@export var max_hp = 100
+@export var min_hp = 0
+var hp = max_hp
 
 const JUMP_VELOCITY = -300.0
 
@@ -122,6 +125,7 @@ func exit_from_sliding_state():
 func go_to_taking_damage_state():
 	status = PlayerState.taking_damage
 	animation.play("taking_damage")
+	
 	
 func go_to_death_state():
 	status = PlayerState.death
@@ -238,7 +242,7 @@ func sliding_state(delta):
 
 func taking_damage_state(_delta):
 	pass
-	
+
 	
 func death_state(_delta):
 	pass	
@@ -284,7 +288,16 @@ func set_large_collider():
 	collision_shape.position.y = 6
 
 
-func _on_hitbox_area_entered(area: Area2D) -> void:
+func take_damage(damage):
+	if status != PlayerState.death:
+		hp -= damage
+		if hp <= 0:
+			go_to_death_state()
+		else:	
+			go_to_taking_damage_state()
+
+
+func _on_hitbox_area_entered(area: Area2D) -> void:	
 	if velocity.y > 0:
 		# inimigo morre
 		area.get_parent().take_damage()

@@ -25,6 +25,10 @@ window/stretch/mode="canvas_items"
 [global_group]
 
 Player=""
+Player_Hitbox=""
+Enemy=""
+Enemy_Hitbox=""
+Enemy_Attackbox=""
 
 [input]
 

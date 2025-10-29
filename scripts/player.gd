@@ -9,6 +9,9 @@ enum PlayerState {
 	landing,
 	crouch,
 	sliding,
+	attack,
+	combo_attack,
+	critical_attack,
 	taking_damage,
 	death
 }
@@ -25,6 +28,12 @@ enum PlayerState {
 @export var max_hp = 100
 @export var min_hp = 0
 var hp = max_hp
+
+var attack_stage = 0 # 0 = nenhum ataque, 1 = attack, 2 = combo attack e 3 = critical attack
+var can_chain_combo = false
+var attack_damage = 10
+var combo_attack_damage = 15
+var critical_attack_damage = 20
 
 const JUMP_VELOCITY = -300.0
 
@@ -62,6 +71,12 @@ func _physics_process(delta: float) -> void:
 			crouch_state(delta)
 		PlayerState.sliding:
 			sliding_state(delta)
+		PlayerState.attack:
+			attack_state(delta)
+		PlayerState.combo_attack:
+			combo_attack_state(delta)
+		PlayerState.critical_attack:
+			critical_attack_state(delta)
 		PlayerState.taking_damage:
 			taking_damage_state(delta)
 		PlayerState.death:
@@ -120,9 +135,36 @@ func go_to_sliding_state():
 
 func exit_from_sliding_state():
 	set_large_collider()
+
+
+func go_to_attack_state():
+	status = PlayerState.attack
+	animation.play("attack")
+	attack_stage = 1
+	set_attack_collider()
+	enable_attack_box()
+
+
+func exit_from_attack_state():
+	set_large_collider()
+
+
+func go_to_combo_attack_state():
+	status = PlayerState.combo_attack
+	animation.play("combo_attack")
+	attack_stage = 2
+	enable_attack_box()
+	
+
+func go_to_critical_attack_state():
+	status = PlayerState.critical_attack
+	animation.play("critical_attack")
+	attack_stage = 3
+	enable_attack_box()
 	
 	
 func go_to_taking_damage_state():
+	print("dano")
 	status = PlayerState.taking_damage
 	animation.play("taking_damage")
 	
@@ -148,6 +190,10 @@ func idle_state(delta):
 	if Input.is_action_pressed("crouch") and is_on_floor():
 		go_to_crouch_state()
 		return
+	
+	if Input.is_action_just_pressed("attack") and is_on_floor():
+		go_to_attack_state()
+		return
 
 
 func walk_state(delta):
@@ -169,6 +215,7 @@ func walk_state(delta):
 	if Input.is_action_just_pressed("crouch") and is_on_floor():
 		go_to_sliding_state()
 		return
+
 	
 func jump_preparation_state(delta):
 	move(delta)
@@ -240,9 +287,72 @@ func sliding_state(delta):
 		return
 
 
-func taking_damage_state(_delta):
-	pass
+func attack_state(delta):
+	move(delta)
+	
+	if can_chain_combo and Input.is_action_just_pressed("attack"):
+		go_to_combo_attack_state()
+		return
+	
+	if animation.frame == animation.sprite_frames.get_frame_count("attack") - 1:
+		stage_after_attacks()
+		
+		
+func combo_attack_state(delta):
+	move(delta)
+	
+	if can_chain_combo and Input.is_action_just_pressed("attack"):
+		go_to_critical_attack_state()
+		return
+	
+	if animation.frame == animation.sprite_frames.get_frame_count("combo_attack") - 1:
+		stage_after_attacks()
 
+
+func critical_attack_state(delta):
+	move(delta)
+	
+	if animation.frame == animation.sprite_frames.get_frame_count("critical_attack") - 1:
+		stage_after_attacks()
+
+
+func stage_after_attacks():
+	exit_from_attack_state()
+	disable_attack_box()
+	can_chain_combo = false
+	attack_stage = 0
+		
+	if is_on_floor():
+		if abs(velocity.x) > 0:
+			go_to_walk_state()
+			return
+		else:
+			go_to_idle_state()
+			return
+	else:
+		if velocity.y < 0:
+			go_to_flying_up_state()
+			return
+		else:
+			go_to_falling_state()
+			return
+
+
+func taking_damage_state(delta):
+	move(delta)
+	
+	if is_on_floor():
+		if velocity.x != 0:
+			go_to_walk_state()
+			return
+	else:
+		if velocity.y < 0:
+			go_to_flying_up_state()
+			return
+		else:
+			go_to_falling_state()
+			return
+	
 	
 func death_state(_delta):
 	pass	
@@ -282,9 +392,16 @@ func set_sliding_collider():
 	collision_shape.position.y = 5
 
 
+func set_attack_collider():
+	collision_shape.shape.radius = 14
+	collision_shape.shape.height = 34
+	collision_shape.position.x = -2
+	collision_shape.position.y = -5
+
+
 func set_large_collider():
 	collision_shape.shape.radius = 14
-	collision_shape.shape.height = 30
+	collision_shape.shape.height = 32
 	collision_shape.position.y = 6
 
 
@@ -297,16 +414,50 @@ func take_damage(damage):
 			go_to_taking_damage_state()
 
 
-func _on_hitbox_area_entered(area: Area2D) -> void:	
-	if velocity.y > 0:
-		# inimigo morre
-		area.get_parent().take_damage()
-		go_to_flying_up_state()
-	else:
-		# player morre
-		if status != PlayerState.death:
-			go_to_death_state()
-
-
 func _on_reload_timer_timeout() -> void:
 	get_tree().reload_current_scene()
+
+
+func _on_attack_box_area_entered(area: Area2D) -> void:
+	if area.is_in_group("Enemy_Hitbox"):
+		match status:
+			PlayerState.attack:
+				area.get_parent().take_damage(attack_damage)
+			PlayerState.combo_attack:
+				area.get_parent().take_damage(combo_attack_damage)
+			PlayerState.critical_attack:
+				area.get_parent().take_damage(critical_attack_damage)
+
+
+func enable_attack_box():
+	$AttackBox.monitoring = true
+
+func disable_attack_box():
+	$AttackBox.monitoring = false
+
+
+func _on_animated_sprite_2d_frame_changed() -> void:
+	match animation.animation:
+		"attack":
+			if animation.frame in [3, 4, 5]:
+				enable_attack_box()
+			else:
+				disable_attack_box()
+		
+			can_chain_combo = animation.frame >= 4
+		
+		"combo_attack":
+			if animation.frame in [1, 2]:
+				enable_attack_box()
+			else:
+				disable_attack_box()
+			
+			can_chain_combo = (animation.frame == 2)
+		
+		"critical_attack":
+			if animation.frame in [2, 3, 4, 5, 6]:
+				enable_attack_box()
+			else:
+				disable_attack_box()
+			
+			can_chain_combo = false

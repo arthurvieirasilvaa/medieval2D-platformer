@@ -4,6 +4,8 @@ enum KnightState {
 	idle,
 	walk,
 	attack1,
+	attack2,
+	attack3,
 	hurt,
 	death
 }
@@ -49,8 +51,8 @@ func _physics_process(delta: float) -> void:
 			idle_state(delta)
 		KnightState.walk:
 			walk_state(delta)
-		KnightState.attack1:
-			attack1_state(delta)
+		KnightState.attack1, KnightState.attack2, KnightState.attack3:
+			attack_state(delta)
 		KnightState.hurt:
 			hurt_state(delta)
 		KnightState.death:
@@ -69,11 +71,21 @@ func go_to_walk_state():
 	animation.play("walk")
 	
 	
-func go_to_attack1_state():
-	status = KnightState.attack1
-	animation.play("attack1")	
+func go_to_attack_state(attack_type: int):
+	match attack_type:
+		1:
+			status = KnightState.attack1
+			animation.play("attack1")	
+		2:
+			status = KnightState.attack2
+			animation.play("attack2")
+		3:
+			status = KnightState.attack3
+			animation.play("attack3")
+	
 	velocity = Vector2.ZERO
-	attack_box.monitoring = true
+	enable_attack_box()
+	can_damage_player = false		
 	
 	
 func go_to_hurt_state():
@@ -88,7 +100,7 @@ func go_to_death_state():
 	hitbox.process_mode = Node.PROCESS_MODE_DISABLED
 	velocity = Vector2.ZERO
 	attack_box.monitoring = false
-
+	
 
 func idle_state(_delta):
 	pass
@@ -106,15 +118,17 @@ func walk_state(_delta):
 		direction *= -1
 	
 	if player_detector.is_colliding():
-		go_to_attack1_state()
+		var attack_type = (randi() % 3) + 1
+		go_to_attack_state(attack_type)
 		return
-		
 
-func attack1_state(_delta):
-	pass
+func attack_state(_delta):
+	if animation.frame == animation.sprite_frames.get_frame_count(animation.animation) - 1:
+		go_to_walk_state()
+		return
 
 
-func hurt_state(delta):
+func hurt_state(_delta):
 	pass
 
 
@@ -137,25 +151,38 @@ func enable_attack_box():
 
 func disable_attack_box():
 	attack_box.monitoring = false
-
-
-func _on_animated_sprite_2d_animation_finished() -> void:
-	if animation.animation == "attack1":
-		go_to_walk_state()
-		return
 		
 
 func _on_attack_box_area_entered(area: Area2D) -> void:
 	if can_damage_player and area.is_in_group("Player_Hitbox"):
 		if status == KnightState.attack1:
 			area.get_parent().take_damage(attack1_damage)
-			can_damage_player = false
+		elif status == KnightState.attack2:
+			area.get_parent().take_damage(attack2_damage)
+		elif status == KnightState.attack3:
+			area.get_parent().take_damage(attack3_damage)
+		
+		can_damage_player = false
 
 
 func _on_animated_sprite_2d_frame_changed() -> void:
 	if animation.animation == "attack1":
-		if animation.frame == 3 or animation.frame == 4 or animation.frame == 5:
+		if animation.frame in [3, 4, 5]:
 			enable_attack_box()
 			can_damage_player = true
 		else:
 			disable_attack_box()
+	elif animation.animation == "attack2":
+		if animation.frame in [1, 2, 3]:
+			enable_attack_box()
+			can_damage_player = true
+		else:
+			disable_attack_box()
+	elif animation.animation == "attack3":
+		if animation.frame in [2, 3]:
+			enable_attack_box()
+			can_damage_player = true
+		else:
+			disable_attack_box()
+	
+			

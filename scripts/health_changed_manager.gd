@@ -4,6 +4,7 @@ extends Control
 @export var damage_color : Color = Color.DARK_RED
 @export var heal_color : Color = Color.DARK_GREEN
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	SignalBus.connect("on_health_changed", on_health_changed)

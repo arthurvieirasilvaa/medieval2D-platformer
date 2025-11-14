@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name Knight
+
 @onready var wall_detector: RayCast2D = $WallDetector
 @onready var ground_detector: RayCast2D = $GroundDetector
 @onready var sprite: Sprite2D = $Sprite2D
@@ -11,6 +13,9 @@ extends CharacterBody2D
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction = 1
+
+
+signal facing_direction_changed(facing_right : bool)
 
 
 func _ready():
@@ -29,6 +34,7 @@ func _physics_process(delta: float) -> void:
 	if wall_detector.is_colliding() or !ground_detector.is_colliding():
 		scale.x *= -1
 		direction *= -1
+		emit_signal("facing_direction_changed", !sprite.flip_h)
 		
 		
 	move_and_slide()

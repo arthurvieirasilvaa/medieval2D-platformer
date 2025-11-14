@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://b7vcy0txhjwws" path="res://entities/camera.tscn" id="8_qxlj4"]
 [ext_resource type="PackedScene" uid="uid://cufpa5vgfwfxv" path="res://entities/level_end.tscn" id="10_jxvlp"]
 [ext_resource type="PackedScene" uid="uid://070jwikbl4kn" path="res://entities/knight.tscn" id="11_gwku7"]
-[ext_resource type="PackedScene" uid="uid://c3m2g4xiww133" path="res://ui/health_changed_manager.tscn" id="12_64es3"]
+[ext_resource type="PackedScene" uid="uid://67ax3bpdaako" path="res://ui/health_bar.tscn" id="12_64es3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jxvlp"]
 texture = ExtResource("3_jo4av")
@@ -514,6 +514,8 @@ shape = SubResource("RectangleShape2D_gwku7")
 [node name="Knight" parent="." instance=ExtResource("11_gwku7")]
 position = Vector2(416, 125)
 
-[node name="HealthChangedManager" parent="." instance=ExtResource("12_64es3")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" parent="CanvasLayer" instance=ExtResource("12_64es3")]
 
 [editable path="LevelEnd"]

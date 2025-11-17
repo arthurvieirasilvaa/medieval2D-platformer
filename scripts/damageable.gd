@@ -5,12 +5,12 @@ class_name Damageable
 signal on_hit(node : Node, damage_taken : int, knockback_direction : Vector2)
 
 
-@export var health : float = 30:
+@export var health : float = 40 :
 	get:
 		return health
 	set(value):
-		SignalBus.emit_signal("on_health_changed", get_parent(), value - health)
 		health = value
+		SignalBus.emit_signal("on_health_changed", get_parent(), value - health)
 
 @export var death_animation_name : String = "death"
 

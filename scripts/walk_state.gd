@@ -5,6 +5,7 @@ class_name WalkState
 
 @onready var player_detector: RayCast2D = $"../../PlayerDetector"
 
+
 @export var attack_state : State
 @export var hit_state : State
 @export var death_state : State
@@ -20,5 +21,4 @@ func state_process(delta):
 		var collider = player_detector.get_collider()
 		
 		if collider and collider.is_in_group("Player"):
-			print("Knight detectou o Player!")
 			emit_signal("interrupt_state", attack_state)

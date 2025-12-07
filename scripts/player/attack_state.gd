@@ -2,6 +2,7 @@ extends State
 
 @onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
 @onready var timer: Timer = $Timer
+@onready var sword_sfx: AudioStreamPlayer = $"../../AudioController/Sword"
 
 @export var return_state : State
 @export var return_animation_node : String = "move"
@@ -21,6 +22,8 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 			playback.travel(return_animation_node)
 		else:
 			playback.travel(combo_attack_name)
+		
+		sword_sfx.play()
 	
 	if anim_name == combo_attack_name:
 		next_state = return_state

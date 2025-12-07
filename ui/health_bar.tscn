@@ -11,6 +11,7 @@ script = ExtResource("1_rwxrv")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="."]
 texture_filter = 1
+layout_mode = 0
 offset_right = 26.0
 offset_bottom = 6.0
 scale = Vector2(4, 4)

@@ -2,7 +2,6 @@ extends State
 
 class_name HitState
 
-
 @onready var timer: Timer = $Timer
 
 @export var damageable : Damageable

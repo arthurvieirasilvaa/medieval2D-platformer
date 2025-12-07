@@ -20,10 +20,10 @@
 [ext_resource type="Script" uid="uid://bnmwj74tx7n3o" path="res://scripts/player/ground_state.gd" id="17_8rie4"]
 [ext_resource type="Script" uid="uid://bwrd1xrrkdi0a" path="res://scripts/player/air_state.gd" id="18_dp3pk"]
 [ext_resource type="Script" uid="uid://bl87k07b2iwpf" path="res://scripts/player/landing_state.gd" id="19_cgp7q"]
-[ext_resource type="Script" uid="uid://d1x440tfglr4i" path="res://scripts/state_debug_label.gd" id="20_1n8aq"]
 [ext_resource type="Script" uid="uid://bi3jxvb4lfiis" path="res://scripts/hit_state.gd" id="20_28s6d"]
 [ext_resource type="Script" uid="uid://dvkqyab8uq6h4" path="res://scripts/player/death_state.gd" id="21_cicqb"]
 [ext_resource type="Script" uid="uid://bwdgn6lao44to" path="res://scripts/player/crouch_state.gd" id="23_fruft"]
+[ext_resource type="AudioStream" uid="uid://cdc1s3slup7js" path="res://audio/sfx/sword_clash_2.wav" id="24_fruft"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4st5"]
 radius = 8.0
@@ -689,7 +689,7 @@ graph_offset = Vector2(-96.6444, -40.3884)
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 1
 collision_layer = 2
-collision_mask = 9
+collision_mask = 25
 script = ExtResource("1_b0kkn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -806,14 +806,15 @@ ground_state = NodePath("../Ground")
 can_move = false
 metadata/_custom_type_script = "uid://3j865byycmvq"
 
-[node name="StateDebugLabel" type="Label" parent="." node_paths=PackedStringArray("state_machine")]
-offset_left = -54.0
-offset_top = -49.0
-offset_right = 50.0
-offset_bottom = -26.0
-text = "State: "
-script = ExtResource("20_1n8aq")
-state_machine = NodePath("../CharacterStateMachine")
+[node name="AudioController" type="Node2D" parent="."]
+
+[node name="Jump" type="AudioStreamPlayer" parent="AudioController"]
+
+[node name="FootSteps" type="AudioStreamPlayer" parent="AudioController"]
+
+[node name="Sword" type="AudioStreamPlayer" parent="AudioController"]
+stream = ExtResource("24_fruft")
+bus = &"SFX"
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="body_entered" from="Sword" to="Sword" method="_on_body_entered"]

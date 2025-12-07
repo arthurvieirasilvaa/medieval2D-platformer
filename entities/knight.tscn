@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://070jwikbl4kn"]
+[gd_scene load_steps=45 format=3 uid="uid://070jwikbl4kn"]
 
 [ext_resource type="Script" uid="uid://cao4wrlvj7sp6" path="res://scripts/knight/knight.gd" id="1_u7a6i"]
 [ext_resource type="Texture2D" uid="uid://sn3riugdipif" path="res://sprites/knight/DEATH.png" id="2_gk8bk"]
@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://df5tt0ek6jbny" path="res://sprites/knight/ATTACK 2.png" id="6_scv0e"]
 [ext_resource type="Script" uid="uid://bi3jxvb4lfiis" path="res://scripts/hit_state.gd" id="6_up45c"]
 [ext_resource type="Texture2D" uid="uid://bostlp6eeyx4" path="res://sprites/knight/ATTACK 3.png" id="7_8mbtm"]
-[ext_resource type="Script" uid="uid://bww82la0dpilb" path="res://scripts/knight/walk_state.gd" id="7_406ae"]
+[ext_resource type="Script" uid="uid://bww82la0dpilb" path="res://scripts/walk_state.gd" id="7_406ae"]
 [ext_resource type="Script" uid="uid://3ljtwila4mvn" path="res://scripts/knight/attack_box.gd" id="8_wc14k"]
 [ext_resource type="Script" uid="uid://4noldvd3wmsm" path="res://scripts/damageable.gd" id="9_406ae"]
 [ext_resource type="Script" uid="uid://csnh01ss7ynnk" path="res://scripts/facing_collision_shape2D.gd" id="9_ner4l"]
@@ -60,21 +60,23 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_470hp"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ric8j"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_gk8bk"]
 states/Start/position = Vector2(210.667, 102.815)
 states/attack1/node = SubResource("AnimationNodeAnimation_8mbtm")
-states/attack1/position = Vector2(364.444, -6)
+states/attack1/position = Vector2(362.519, 22)
 states/attack2/node = SubResource("AnimationNodeAnimation_us7oe")
 states/attack2/position = Vector2(362.815, -78)
 states/attack3/node = SubResource("AnimationNodeAnimation_wc14k")
-states/attack3/position = Vector2(218.667, -4.66666)
+states/attack3/position = Vector2(193.334, -30)
 states/death/node = SubResource("AnimationNodeAnimation_gk8bk")
 states/death/position = Vector2(602.667, 99.3333)
 states/hurt/node = SubResource("AnimationNodeAnimation_oo3l6")
 states/hurt/position = Vector2(603.556, 12.6667)
 states/walk/node = SubResource("AnimationNodeAnimation_jn7en")
 states/walk/position = Vector2(364, 95.3333)
-transitions = ["Start", "walk", SubResource("AnimationNodeStateMachineTransition_80syu"), "walk", "hurt", SubResource("AnimationNodeStateMachineTransition_u7a6i"), "hurt", "death", SubResource("AnimationNodeStateMachineTransition_406ae"), "walk", "attack1", SubResource("AnimationNodeStateMachineTransition_ner4l"), "attack1", "attack2", SubResource("AnimationNodeStateMachineTransition_2eg8o"), "attack2", "attack3", SubResource("AnimationNodeStateMachineTransition_iogqt"), "attack3", "walk", SubResource("AnimationNodeStateMachineTransition_63oqc"), "hurt", "walk", SubResource("AnimationNodeStateMachineTransition_8rks3"), "attack1", "hurt", SubResource("AnimationNodeStateMachineTransition_j32f2"), "attack2", "hurt", SubResource("AnimationNodeStateMachineTransition_470hp")]
+transitions = ["Start", "walk", SubResource("AnimationNodeStateMachineTransition_80syu"), "walk", "hurt", SubResource("AnimationNodeStateMachineTransition_u7a6i"), "hurt", "death", SubResource("AnimationNodeStateMachineTransition_406ae"), "walk", "attack1", SubResource("AnimationNodeStateMachineTransition_ner4l"), "attack1", "attack2", SubResource("AnimationNodeStateMachineTransition_2eg8o"), "attack2", "attack3", SubResource("AnimationNodeStateMachineTransition_iogqt"), "attack3", "walk", SubResource("AnimationNodeStateMachineTransition_63oqc"), "hurt", "walk", SubResource("AnimationNodeStateMachineTransition_8rks3"), "attack1", "hurt", SubResource("AnimationNodeStateMachineTransition_j32f2"), "attack2", "hurt", SubResource("AnimationNodeStateMachineTransition_470hp"), "attack3", "hurt", SubResource("AnimationNodeStateMachineTransition_ric8j")]
 graph_offset = Vector2(0, -104.882)
 
 [sub_resource type="Animation" id="Animation_406ae"]
@@ -432,6 +434,7 @@ size = Vector2(21, 29)
 z_index = 1
 texture_filter = 1
 collision_layer = 4
+collision_mask = 17
 script = ExtResource("1_u7a6i")
 hit_state = NodePath("CharacterStateMachine/Hit")
 
@@ -442,7 +445,6 @@ shape = SubResource("CapsuleShape2D_8203k")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("4_80syu")
 hframes = 8
-frame = 1
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 reset_on_save = false

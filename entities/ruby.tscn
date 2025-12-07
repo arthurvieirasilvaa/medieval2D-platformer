@@ -1,0 +1,86 @@
+[gd_scene load_steps=13 format=3 uid="uid://b3vy82wdej6mg"]
+
+[ext_resource type="Script" uid="uid://clqnvxx6at8np" path="res://scripts/ruby.gd" id="1_210u2"]
+[ext_resource type="Texture2D" uid="uid://byybokktgl0el" path="res://sprites/items/ruby.png" id="1_ols2s"]
+[ext_resource type="AudioStream" uid="uid://d03snnfr3grki" path="res://audio/sfx/mixkit-video-game-treasure-2066.wav" id="3_g6uv1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_210u2"]
+atlas = ExtResource("1_ols2s")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6uv1"]
+atlas = ExtResource("1_ols2s")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_78dp7"]
+atlas = ExtResource("1_ols2s")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j8x3a"]
+atlas = ExtResource("1_ols2s")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n1f0m"]
+atlas = ExtResource("1_ols2s")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2ipg"]
+atlas = ExtResource("1_ols2s")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nn51f"]
+atlas = ExtResource("1_ols2s")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3hs4y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_210u2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6uv1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_78dp7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j8x3a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n1f0m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2ipg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nn51f")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0lv68"]
+radius = 6.0
+height = 22.0
+
+[node name="Ruby" type="Area2D"]
+collision_layer = 32
+collision_mask = 2
+script = ExtResource("1_210u2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_3hs4y")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_0lv68")
+
+[node name="RubyCollectedSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_g6uv1")
+bus = &"SFX"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

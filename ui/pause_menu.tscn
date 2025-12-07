@@ -58,6 +58,7 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_j3kxr")
+is_pause_menu = true
 
 [node name="Background" type="Panel" parent="."]
 layout_mode = 1

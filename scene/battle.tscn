@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=4 uid="uid://ppyaiixew7g7"]
+[gd_scene load_steps=19 format=4 uid="uid://ppyaiixew7g7"]
 
 [ext_resource type="PackedScene" uid="uid://cqxod2criuam7" path="res://entities/player.tscn" id="1_afp2b"]
+[ext_resource type="Script" uid="uid://f3wqhl60ml5b" path="res://scripts/level_pause_menu.gd" id="1_o18kk"]
 [ext_resource type="Texture2D" uid="uid://cvlm74yqjd4yk" path="res://sprites/battle/TX Tileset Ground.png" id="2_ffp3s"]
 [ext_resource type="TileSet" uid="uid://bpmb2rnq48l5r" path="res://tiles/decoration.tres" id="3_6qw66"]
 [ext_resource type="PackedScene" uid="uid://b7vcy0txhjwws" path="res://entities/camera.tscn" id="4_0okv5"]
@@ -10,6 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://rtgc3wf4m674" path="res://entities/fire_wizard.tscn" id="8_p56j5"]
 [ext_resource type="PackedScene" uid="uid://cmu3pe1fea7us" path="res://ui/health_bar.tscn" id="9_ougy3"]
 [ext_resource type="PackedScene" uid="uid://bku6ccypdojgd" path="res://entities/level_begin.tscn" id="10_bdn7b"]
+[ext_resource type="PackedScene" uid="uid://cslbwty2je5pb" path="res://ui/pause_menu.tscn" id="11_5mh2w"]
+[ext_resource type="AudioStream" uid="uid://boa8tcjduis1f" path="res://audio/music/battleThemeA.mp3" id="11_yyook"]
+[ext_resource type="PackedScene" uid="uid://b3vy82wdej6mg" path="res://entities/ruby.tscn" id="14_ef046"]
+[ext_resource type="PackedScene" uid="uid://edabydnbjfee" path="res://ui/ruby_ui.tscn" id="14_i5dg4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_soyo5"]
 texture = ExtResource("2_ffp3s")
@@ -866,6 +871,7 @@ sources/1 = SubResource("TileSetAtlasSource_soyo5")
 size = Vector2(20, 89)
 
 [node name="Battle" type="Node2D"]
+script = ExtResource("1_o18kk")
 
 [node name="Player" parent="." instance=ExtResource("1_afp2b")]
 position = Vector2(21, 220)
@@ -922,9 +928,9 @@ region_rect = Rect2(0, 0, 1152, 324)
 [node name="FireWizard" parent="." instance=ExtResource("8_p56j5")]
 position = Vector2(169, 184)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HealthBar" type="CanvasLayer" parent="."]
 
-[node name="HealthBar" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("9_ougy3")]
+[node name="HealthBar" parent="HealthBar" node_paths=PackedStringArray("player") instance=ExtResource("9_ougy3")]
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 5.0
@@ -937,5 +943,27 @@ position = Vector2(1, 239)
 [node name="CollisionShape2D" parent="LevelBegin" index="0"]
 position = Vector2(-15, -34)
 shape = SubResource("RectangleShape2D_yyook")
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="PauseMenu" instance=ExtResource("11_5mh2w")]
+visible = false
+
+[node name="BattleBackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_yyook")
+autoplay = true
+bus = &"Music"
+
+[node name="Items" type="Node" parent="."]
+
+[node name="Ruby" parent="Items" instance=ExtResource("14_ef046")]
+position = Vector2(70, 233)
+
+[node name="Ruby2" parent="Items" instance=ExtResource("14_ef046")]
+position = Vector2(208, 236)
+
+[node name="Rubies" type="CanvasLayer" parent="."]
+
+[node name="RubyUI" parent="Rubies" instance=ExtResource("14_i5dg4")]
 
 [editable path="LevelBegin"]

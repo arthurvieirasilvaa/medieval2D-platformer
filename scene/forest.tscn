@@ -1,6 +1,7 @@
-[gd_scene load_steps=21 format=4 uid="uid://cx215obykywad"]
+[gd_scene load_steps=24 format=4 uid="uid://cx215obykywad"]
 
 [ext_resource type="PackedScene" uid="uid://cqxod2criuam7" path="res://entities/player.tscn" id="1_e2knd"]
+[ext_resource type="Script" uid="uid://f3wqhl60ml5b" path="res://scripts/level_pause_menu.gd" id="1_p7yhu"]
 [ext_resource type="TileSet" uid="uid://buvhwe6ib2yqc" path="res://tiles/terrain.tres" id="2_2xpkg"]
 [ext_resource type="TileSet" uid="uid://bpmb2rnq48l5r" path="res://tiles/decoration.tres" id="3_e3l50"]
 [ext_resource type="Texture2D" uid="uid://b50fccqiryn44" path="res://sprites/forest/background/background_layer_3.png" id="3_gbfvw"]
@@ -15,28 +16,9 @@
 [ext_resource type="PackedScene" uid="uid://cmu3pe1fea7us" path="res://ui/health_bar.tscn" id="12_64es3"]
 [ext_resource type="PackedScene" uid="uid://dirvq17xsoobi" path="res://entities/skeleton.tscn" id="13_ja8kk"]
 [ext_resource type="PackedScene" uid="uid://cslbwty2je5pb" path="res://ui/pause_menu.tscn" id="15_boiax"]
-
-[sub_resource type="GDScript" id="GDScript_ja8kk"]
-script/source = "extends Node2D
-
-@onready var pause_menu: Control = $PauseMenuCanvasLayer/PauseMenu
-
-
-func _input(event):
-	if event.is_action_pressed(\"pause\"):
-		toggle_pause_menu()
-
-
-func toggle_pause_menu():
-	if pause_menu.visible:
-		# Desativar pause
-		pause_menu.visible = false
-		get_tree().paused = false
-	else:
-		# Ativar pause
-		pause_menu.visible = true
-		get_tree().paused = true
-"
+[ext_resource type="AudioStream" uid="uid://cg5t64lb4e0ed" path="res://audio/music/GameMusic_ForestTheme_24.mp3" id="16_0xhum"]
+[ext_resource type="PackedScene" uid="uid://b3vy82wdej6mg" path="res://entities/ruby.tscn" id="18_cwbpd"]
+[ext_resource type="PackedScene" uid="uid://edabydnbjfee" path="res://ui/ruby_ui.tscn" id="19_ysu3w"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jxvlp"]
 texture = ExtResource("3_jo4av")
@@ -456,7 +438,7 @@ size = Vector2(20, 113)
 size = Vector2(20, 144)
 
 [node name="Forest" type="Node2D"]
-script = SubResource("GDScript_ja8kk")
+script = ExtResource("1_p7yhu")
 metadata/_edit_vertical_guides_ = [2319.0]
 
 [node name="Player" parent="." instance=ExtResource("1_e2knd")]
@@ -560,20 +542,36 @@ position = Vector2(118, 176)
 [node name="Skeleton2" parent="." instance=ExtResource("13_ja8kk")]
 position = Vector2(409, 176)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HealthBar" type="CanvasLayer" parent="."]
 
-[node name="HealthBar" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("12_64es3")]
+[node name="HealthBar" parent="HealthBar" node_paths=PackedStringArray("player") instance=ExtResource("12_64es3")]
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 5.0
 offset_bottom = 5.0
 player = NodePath("../../Player")
 
-[node name="PauseMenuCanvasLayer" type="CanvasLayer" parent="."]
+[node name="PauseMenu" type="CanvasLayer" parent="."]
 
-[node name="PauseMenu" parent="PauseMenuCanvasLayer" instance=ExtResource("15_boiax")]
+[node name="PauseMenu" parent="PauseMenu" instance=ExtResource("15_boiax")]
 visible = false
-is_pause_menu = true
+
+[node name="ForestBackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_0xhum")
+autoplay = true
+bus = &"Music"
+
+[node name="Items" type="Node" parent="."]
+
+[node name="Ruby" parent="Items" instance=ExtResource("18_cwbpd")]
+position = Vector2(77, 179)
+
+[node name="Ruby2" parent="Items" instance=ExtResource("18_cwbpd")]
+position = Vector2(187, 180)
+
+[node name="Rubies" type="CanvasLayer" parent="."]
+
+[node name="RubyUI" parent="Rubies" instance=ExtResource("19_ysu3w")]
 
 [editable path="LevelBegin"]
 [editable path="LevelEnd"]

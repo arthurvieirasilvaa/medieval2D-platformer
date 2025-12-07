@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://edabydnbjfee"]
+
+[ext_resource type="Script" uid="uid://qm3qfitfjuai" path="res://scripts/ruby_ui.gd" id="1_6ygn1"]
+[ext_resource type="Texture2D" uid="uid://byybokktgl0el" path="res://sprites/items/ruby.png" id="1_rmx11"]
+[ext_resource type="FontFile" uid="uid://bwcm1iohdrmux" path="res://sprites/ui/UncialAntiqua-Regular.ttf" id="2_yo4es"]
+
+[node name="RubyUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 250.0
+offset_top = 5.0
+offset_right = 275.0
+offset_bottom = 32.0
+script = ExtResource("1_6ygn1")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("1_rmx11")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 23.0
+offset_top = -3.0
+offset_right = 52.0
+offset_bottom = 25.0
+theme_override_fonts/font = ExtResource("2_yo4es")
+theme_override_font_sizes/font_size = 20
+text = "0"
+horizontal_alignment = 1

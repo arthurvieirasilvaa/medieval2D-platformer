@@ -18,9 +18,9 @@ func _ready():
 	damageable.connect("on_hit", on_damageable_hit)
 
 
-func on_enter():
+func on_enter():	
 	timer.start()
-	
+
 
 func on_damageable_hit(node : Node, damage_amount : int, knockback_direction : Vector2):
 	if damageable.health > 0:

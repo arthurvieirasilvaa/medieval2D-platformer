@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dirvq17xsoobi"]
+[gd_scene load_steps=39 format=3 uid="uid://dirvq17xsoobi"]
 
 [ext_resource type="Script" uid="uid://b7ixa0wvs6rwm" path="res://scripts/skeleton/skeleton.gd" id="1_3kifd"]
 [ext_resource type="Texture2D" uid="uid://dkr2w51qvb3a6" path="res://sprites/skeleton/Limping_Movement (32 x 32).png" id="1_20vpb"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://debh58myd1887" path="res://sprites/skeleton/Hurt (32 x 32).png" id="3_mssj4"]
 [ext_resource type="Script" uid="uid://bww82la0dpilb" path="res://scripts/walk_state.gd" id="4_4oc3b"]
 [ext_resource type="Texture2D" uid="uid://dfosyjsivbxic" path="res://sprites/skeleton/Bone_Toss (32 x 32).png" id="5_xsvvn"]
+[ext_resource type="Texture2D" uid="uid://x3gvw24dw88l" path="res://sprites/skeleton/Standing_Idle (32 x 32).png" id="6_4qj8h"]
 [ext_resource type="Script" uid="uid://bi3jxvb4lfiis" path="res://scripts/hit_state.gd" id="7_tx6xw"]
 [ext_resource type="Script" uid="uid://3j865byycmvq" path="res://scripts/state.gd" id="8_3kifd"]
 [ext_resource type="Script" uid="uid://ckv34gomvyyv3" path="res://scripts/skeleton/bone_toss.gd" id="11_oayfp"]
@@ -24,6 +25,9 @@ animation = &"dead"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3kifd"]
 animation = &"hurt"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4qj8h"]
+animation = &"idle"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xsvvn"]
 animation = &"walk"
@@ -45,17 +49,29 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ckyi2"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_b0uhi"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0qgbw"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kjous"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0f01p"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_b8wbt"]
+states/Start/position = Vector2(177.333, 100)
 states/bone_toss/node = SubResource("AnimationNodeAnimation_oayfp")
 states/bone_toss/position = Vector2(532.889, 99.6945)
 states/dead/node = SubResource("AnimationNodeAnimation_mssj4")
 states/dead/position = Vector2(532, 196.667)
 states/hurt/node = SubResource("AnimationNodeAnimation_3kifd")
 states/hurt/position = Vector2(380.444, 195.333)
+states/idle/node = SubResource("AnimationNodeAnimation_4qj8h")
+states/idle/position = Vector2(288, 38.6942)
 states/walk/node = SubResource("AnimationNodeAnimation_xsvvn")
 states/walk/position = Vector2(380, 98.4444)
-transitions = ["Start", "walk", SubResource("AnimationNodeStateMachineTransition_oayfp"), "walk", "hurt", SubResource("AnimationNodeStateMachineTransition_4qj8h"), "hurt", "walk", SubResource("AnimationNodeStateMachineTransition_0sdy1"), "hurt", "dead", SubResource("AnimationNodeStateMachineTransition_fu166"), "walk", "bone_toss", SubResource("AnimationNodeStateMachineTransition_lem8q"), "bone_toss", "walk", SubResource("AnimationNodeStateMachineTransition_dp68x"), "bone_toss", "hurt", SubResource("AnimationNodeStateMachineTransition_ckyi2")]
-graph_offset = Vector2(0, 6.02755)
+transitions = ["Start", "walk", SubResource("AnimationNodeStateMachineTransition_oayfp"), "walk", "hurt", SubResource("AnimationNodeStateMachineTransition_4qj8h"), "hurt", "walk", SubResource("AnimationNodeStateMachineTransition_0sdy1"), "hurt", "dead", SubResource("AnimationNodeStateMachineTransition_fu166"), "walk", "bone_toss", SubResource("AnimationNodeStateMachineTransition_lem8q"), "bone_toss", "walk", SubResource("AnimationNodeStateMachineTransition_dp68x"), "bone_toss", "hurt", SubResource("AnimationNodeStateMachineTransition_ckyi2"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_b0uhi"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_0qgbw"), "idle", "bone_toss", SubResource("AnimationNodeStateMachineTransition_kjous"), "idle", "hurt", SubResource("AnimationNodeStateMachineTransition_0f01p")]
+graph_offset = Vector2(0, -33.1515)
 
 [sub_resource type="Animation" id="Animation_fpmxe"]
 length = 0.001
@@ -99,7 +115,6 @@ tracks/2/keys = {
 [sub_resource type="Animation" id="Animation_oayfp"]
 resource_name = "bone_toss"
 length = 0.5
-loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -220,6 +235,48 @@ tracks/2/keys = {
 "values": [0, 1]
 }
 
+[sub_resource type="Animation" id="Animation_0sdy1"]
+resource_name = "idle"
+length = 0.9
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("6_4qj8h")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
 [sub_resource type="Animation" id="Animation_yag7t"]
 resource_name = "walk"
 length = 0.6
@@ -268,6 +325,7 @@ _data = {
 &"bone_toss": SubResource("Animation_oayfp"),
 &"dead": SubResource("Animation_j31jw"),
 &"hurt": SubResource("Animation_3kifd"),
+&"idle": SubResource("Animation_0sdy1"),
 &"walk": SubResource("Animation_yag7t")
 }
 
@@ -316,7 +374,7 @@ target_position = Vector2(0, 22)
 
 [node name="PlayerDetector" type="RayCast2D" parent="."]
 position = Vector2(0, 7)
-target_position = Vector2(40, 0)
+target_position = Vector2(54, 0)
 collision_mask = 2
 
 [node name="Damageable" type="Node" parent="."]
@@ -361,7 +419,6 @@ one_shot = true
 [node name="BoneToss" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("walk_state")]
 script = ExtResource("11_oayfp")
 walk_state = NodePath("../Walk")
-pause_between_attacks = 10.0
 can_move = false
 metadata/_custom_type_script = "uid://3j865byycmvq"
 

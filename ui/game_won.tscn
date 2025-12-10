@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://b7dki6dkp2fl3"]
+
+[ext_resource type="FontFile" uid="uid://bwcm1iohdrmux" path="res://sprites/ui/UncialAntiqua-Regular.ttf" id="1_c7ow6"]
+[ext_resource type="Script" uid="uid://bsh4ukd6ilqdh" path="res://scripts/game_won.gd" id="1_hp6pk"]
+[ext_resource type="Texture2D" uid="uid://j42tty7cdgc1" path="res://sprites/ui/bg_15.png" id="2_3c4du"]
+[ext_resource type="AudioStream" uid="uid://c4ej3ebj3nwjp" path="res://audio/sfx/click_double_off_2.wav" id="3_3faec"]
+[ext_resource type="AudioStream" uid="uid://ssbyou2igu3s" path="res://audio/music/Pixel 1.wav" id="5_rrtfm"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rrtfm"]
+texture = ExtResource("2_3c4du")
+
+[node name="GameWon" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hp6pk")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_rrtfm")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 34.0
+offset_right = 286.0
+offset_bottom = 88.0
+theme_override_colors/font_color = Color(0.309804, 0.301961, 0.376471, 1)
+theme_override_fonts/font = ExtResource("1_c7ow6")
+theme_override_font_sizes/font_size = 30
+text = "YOU WON!!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayAgain" type="Button" parent="."]
+process_mode = 3
+layout_mode = 0
+offset_left = 113.0
+offset_top = 97.0
+offset_right = 193.0
+offset_bottom = 121.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_c7ow6")
+theme_override_font_sizes/font_size = 12
+text = "Play Again"
+
+[node name="ClickAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_3faec")
+bus = &"SFX"
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_rrtfm")
+autoplay = true
+bus = &"SFX"
+
+[connection signal="pressed" from="PlayAgain" to="." method="_on_play_again_pressed"]

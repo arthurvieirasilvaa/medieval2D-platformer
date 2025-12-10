@@ -26,6 +26,7 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	
+	
 	if state_machine.check_if_can_move():
 		velocity.x = direction * speed
 	elif state_machine.current_state != hit_state:

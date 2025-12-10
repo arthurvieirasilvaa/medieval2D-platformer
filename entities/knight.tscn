@@ -445,6 +445,7 @@ shape = SubResource("CapsuleShape2D_8203k")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("4_80syu")
 hframes = 8
+frame = 5
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 reset_on_save = false
@@ -520,6 +521,7 @@ metadata/_custom_type_script = "uid://3j865byycmvq"
 script = ExtResource("6_up45c")
 damageable = NodePath("../../Damageable")
 death_state = NodePath("../Death")
+knockback_speed = 50.0
 return_state = NodePath("../Walk")
 can_move = false
 metadata/_custom_type_script = "uid://3j865byycmvq"

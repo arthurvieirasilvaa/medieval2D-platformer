@@ -35,6 +35,5 @@ func _physics_process(delta: float) -> void:
 		scale.x *= -1
 		direction *= -1
 		emit_signal("facing_direction_changed", !sprite.flip_h)
-		
-		
+				
 	move_and_slide()

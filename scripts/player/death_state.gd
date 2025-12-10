@@ -12,7 +12,8 @@ func on_enter():
 	character.velocity = Vector2.ZERO
 	
 	character.set_collision_layer(0)
-
+	
 
 func _on_reload_timer_timeout() -> void:
+	RubiesController.reset_rubies()
 	get_tree().reload_current_scene()

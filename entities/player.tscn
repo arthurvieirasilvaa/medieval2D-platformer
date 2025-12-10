@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://cqxod2criuam7"]
+[gd_scene load_steps=74 format=3 uid="uid://cqxod2criuam7"]
 
 [ext_resource type="Script" uid="uid://dm1xn5hecdfuq" path="res://scripts/player/player.gd" id="1_b0kkn"]
 [ext_resource type="Texture2D" uid="uid://cg5s8ohsyedii" path="res://sprites/player/idle.png" id="1_merdl"]
@@ -23,13 +23,15 @@
 [ext_resource type="Script" uid="uid://bi3jxvb4lfiis" path="res://scripts/hit_state.gd" id="20_28s6d"]
 [ext_resource type="Script" uid="uid://dvkqyab8uq6h4" path="res://scripts/player/death_state.gd" id="21_cicqb"]
 [ext_resource type="Script" uid="uid://bwdgn6lao44to" path="res://scripts/player/crouch_state.gd" id="23_fruft"]
-[ext_resource type="AudioStream" uid="uid://cdc1s3slup7js" path="res://audio/sfx/sword_clash_2.wav" id="24_fruft"]
+[ext_resource type="AudioStream" uid="uid://b0sevqyf2lc0c" path="res://audio/sfx/12_human_jump_1.wav" id="24_slxql"]
+[ext_resource type="AudioStream" uid="uid://bqwrisjsqakp7" path="res://audio/sfx/03_Step_grass_03.wav" id="25_7db53"]
+[ext_resource type="AudioStream" uid="uid://bvstlaqtbxr7r" path="res://audio/sfx/26_sword_hit_2.wav" id="25_evlff"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4st5"]
 radius = 8.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tjdhl"]
-size = Vector2(14.5, 28.5)
+size = Vector2(14.5, 25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dchgp"]
 size = Vector2(17.5, 31)
@@ -698,12 +700,13 @@ position = Vector2(-1, 13)
 shape = SubResource("CapsuleShape2D_n4st5")
 
 [node name="Hitbox" type="Area2D" parent="." groups=["Player_Hitbox"]]
+z_index = 1
 position = Vector2(5, 5)
-collision_layer = 2
-collision_mask = 4
+collision_layer = 128
+collision_mask = 68
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-7, 9)
+position = Vector2(-7, 10.5)
 shape = SubResource("RectangleShape2D_tjdhl")
 debug_color = Color(0.961758, 4.81307e-07, 0.50851, 0.42)
 
@@ -744,6 +747,8 @@ parameters/move/blend_position = 0.025
 
 [node name="Damageable" type="Node" parent="."]
 script = ExtResource("12_dp3pk")
+health = 80.0
+max_health = 80.0
 metadata/_custom_type_script = "uid://4noldvd3wmsm"
 
 [node name="CharacterStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "animation_tree", "current_state")]
@@ -754,6 +759,7 @@ current_state = NodePath("Ground")
 
 [node name="Ground" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("air_state", "attack_state", "crouch_state")]
 script = ExtResource("17_8rie4")
+jump_velocity = -350.0
 air_state = NodePath("../Air")
 attack_state = NodePath("../Attack")
 crouch_state = NodePath("../Crouch")
@@ -809,17 +815,21 @@ metadata/_custom_type_script = "uid://3j865byycmvq"
 [node name="AudioController" type="Node2D" parent="."]
 
 [node name="Jump" type="AudioStreamPlayer" parent="AudioController"]
-
-[node name="FootSteps" type="AudioStreamPlayer" parent="AudioController"]
-
-[node name="Sword" type="AudioStreamPlayer" parent="AudioController"]
-stream = ExtResource("24_fruft")
+stream = ExtResource("24_slxql")
 bus = &"SFX"
 
-[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[node name="FootSteps" type="AudioStreamPlayer" parent="AudioController"]
+stream = ExtResource("25_7db53")
+bus = &"SFX"
+
+[node name="Sword" type="AudioStreamPlayer" parent="AudioController"]
+stream = ExtResource("25_evlff")
+bus = &"SFX"
+
 [connection signal="body_entered" from="Sword" to="Sword" method="_on_body_entered"]
 [connection signal="timeout" from="ReloadTimer" to="CharacterStateMachine/Death" method="_on_reload_timer_timeout"]
 [connection signal="animation_changed" from="AnimationPlayer" to="." method="_on_animation_player_animation_changed"]
+[connection signal="animation_finished" from="AnimationTree" to="Damageable" method="_on_animation_tree_animation_finished"]
 [connection signal="animation_finished" from="AnimationTree" to="CharacterStateMachine/Landing" method="_on_animation_tree_animation_finished"]
 [connection signal="animation_finished" from="AnimationTree" to="CharacterStateMachine/Attack" method="_on_animation_tree_animation_finished"]
 [connection signal="animation_player_changed" from="AnimationTree" to="." method="_on_animation_tree_animation_player_changed"]

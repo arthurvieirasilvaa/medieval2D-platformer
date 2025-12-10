@@ -49,7 +49,6 @@ func _on_quit_pressed() -> void:
 	click_audio.play()
 	get_tree().quit()
 
-
 func _on_back_pressed() -> void:
 	click_audio.play()
 	_ready()

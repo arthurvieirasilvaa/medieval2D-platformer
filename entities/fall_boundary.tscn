@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2a0sjgftcge0"]
+
+[sub_resource type="GDScript" id="GDScript_xdpjp"]
+script/source = "extends Area2D
+
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
+
+
+func _ready() -> void:
+	var viewport_size = get_viewport_rect().size
+	
+	var shape = collision_shape.shape
+	
+	if shape is RectangleShape2D:
+		var new_width = viewport_size.x * 3
+		var new_height = 50
+		shape.size = Vector2(new_width, new_height)
+		collision_shape.position = Vector2.ZERO
+	else:
+		print(\"Aviso: O CollisionShape2D precisa ser um RectangleShape2D para ajuste dinâmico.\")
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body is Player or body is Knight or body is FireWizard or body is Skeleton:
+		kill_player(body)
+
+
+func kill_player(node):
+	var character_state_machine = node.state_machine
+	
+	if character_state_machine.has_state(\"DeathState\"):
+		character_state_machine.transition_to(\"DeathState\") 
+	   
+		node.velocity = Vector2.ZERO
+	else:
+		get_tree().reload_current_scene()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xdpjp"]
+
+[node name="FallBoundary" type="Area2D"]
+collision_layer = 64
+collision_mask = 6
+script = SubResource("GDScript_xdpjp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xdpjp")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
